@@ -1,0 +1,7 @@
+<resources>
+
+    <!--MultiStateView-->
+    <string name="multi_state_view_no_items">No items</string>
+    <string name="multi_state_view_error">Error</string>
+
+</resources>

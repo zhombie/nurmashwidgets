@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--NOTE: Please keep alphabetical order-->
+
+    <color name="colorAccent">@color/blue</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/black</color>
+
+    <!--Base application colors-->
+    <color name="black">#000</color>
+    <color name="blue">#007aff</color>
+    <color name="gray">#d8d8e3</color>
+    <color name="lightBlack">#333</color>
+    <color name="lightGray">#f3f3f3</color>
+    <color name="transparent">#00000000</color>
+    <color name="red">#ea5f5f</color>
+    <color name="white">#fff</color>
+    <color name="lightSeparator">@color/lightGray</color>
+
+    <!--Base application background colors-->
+    <color name="grayBackground">#e6fafafa</color>
+    <color name="darkerGrayBackground">#ddd</color>
+
+    <!--Base application text colors-->
+    <color name="actionbarTitle">#828282</color>
+    <color name="blackText">@color/black</color>
+    <color name="blueText">@color/blue</color>
+    <color name="lightText">#888</color>
+    <color name="normalText">@color/lightBlack</color>
+
+    <!--Base application button colors-->
+    <color name="buttonBlue">@color/blue</color>
+    <color name="ripple">@color/lightBlack</color>
+
+    <!--Base application border colors-->
+    <color name="grayBorder">@color/lightGray</color>
+
+    <!--Bottom Navigation-->
+    <color name="bottomNavigationChecked">#333</color>
+    <color name="bottomNavigationUnchecked">#999</color>
+
+    <!--Gradient-->
+    <color name="gradientStartColor">#e3e3e3</color>
+    <color name="gradientEndColor">#f2f2f2</color>
+
+    <!--Daily promotions timer background colors-->
+    <color name="darkBlue">#313d55</color>
+
+</resources>
