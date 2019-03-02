@@ -87,6 +87,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
     @StringRes
     private var errorTextRes: Int? = null
 
+
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MultiStateView)
 
@@ -421,6 +422,9 @@ class MultiStateView @JvmOverloads constructor(context: Context,
         updateView()
         listener?.onStateChanged(state)
     }
+
+    @State.MultiStateViewState
+    public fun getViewState(): State = viewState
 
     interface StateListener {
         /**

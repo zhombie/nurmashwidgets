@@ -1,4 +1,4 @@
-package org.nurmash.lib.project
+package org.nurmash.lib.sample
 
 import org.junit.Test
 
