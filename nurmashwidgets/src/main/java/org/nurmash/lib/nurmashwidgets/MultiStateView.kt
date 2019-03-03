@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import kotlinx.android.synthetic.main.default_state_empty_view.view.*
-import kotlinx.android.synthetic.main.default_state_error_view.view.*
 
 
 /**
@@ -20,10 +20,12 @@ import kotlinx.android.synthetic.main.default_state_error_view.view.*
  * The [contentView] is obtained from whatever is inside of the tags of the view via its XML declaration
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-class MultiStateView @JvmOverloads constructor(context: Context,
-                                               attrs: AttributeSet? = null,
-                                               defStyle: Int = 0,
-                                               defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyle, defStyleAttr) {
+class MultiStateView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyle, defStyleAttr) {
 
     companion object {
         sealed class State {
@@ -31,7 +33,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
 
             object Unknown : State()
             object Content : State()
-            object Error : State()
+            data class Error(val message: String) : State()
             object Empty : State()
             object Loading : State()
         }
@@ -58,6 +60,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
 
         @LayoutRes
         private val DEFAULT_VIEW_STATE_LOADING_LAYOUT_ID = R.layout.default_state_loading_view
+
     }
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -68,24 +71,12 @@ class MultiStateView @JvmOverloads constructor(context: Context,
     private var emptyView: View? = null
 
     private var listener: StateListener? = null
+    private var emptyStateActionListener: EmptyStateActionListener? = null
+    private var errorStateActionListener: ErrorStateActionListener? = null
+
 
     @State.MultiStateViewState
     private var viewState: State = State.Unknown
-
-    private var isDefaultEmptyViewUsed = true
-    private var isDefaultErrorViewUsed = true
-
-    @DrawableRes
-    private var emptyIconRes: Int? = null
-
-    @StringRes
-    private var emptyTextRes: Int? = null
-
-    @DrawableRes
-    private var errorIconRes: Int? = null
-
-    @StringRes
-    private var errorTextRes: Int? = null
 
 
     init {
@@ -108,10 +99,8 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          */
         val emptyViewResId = typedArray.getResourceId(R.styleable.MultiStateView_emptyView, -1)
         val emptyView = if (emptyViewResId > -1) {
-            isDefaultEmptyViewUsed = false
             layoutInflater.inflate(emptyViewResId, this, false)
         } else {
-            isDefaultEmptyViewUsed = true
             layoutInflater.inflate(DEFAULT_VIEW_STATE_EMPTY_LAYOUT_ID, this, false)
         }
         this.emptyView = emptyView
@@ -122,10 +111,8 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          */
         val errorViewResId = typedArray.getResourceId(R.styleable.MultiStateView_errorView, -1)
         val errorView = if (errorViewResId > -1) {
-            isDefaultErrorViewUsed = false
             layoutInflater.inflate(errorViewResId, this, false)
         } else {
-            isDefaultErrorViewUsed = true
             layoutInflater.inflate(DEFAULT_VIEW_STATE_ERROR_LAYOUT_ID, this, false)
         }
         this.errorView = errorView
@@ -138,7 +125,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
 
         viewState = when (defaultViewState) {
             VIEW_STATE_CONTENT -> State.Content
-            VIEW_STATE_ERROR -> State.Error
+            VIEW_STATE_ERROR -> State.Error("")
             VIEW_STATE_EMPTY -> State.Empty
             VIEW_STATE_LOADING -> State.Loading
             VIEW_STATE_UNKNOWN -> State.Unknown
@@ -149,8 +136,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          * Empty icon initialization
          */
         val emptyIconRes = typedArray.getResourceId(R.styleable.MultiStateView_emptyIcon, -1)
-        this.emptyIconRes = emptyIconRes
-        if (isDefaultEmptyViewUsed && emptyIconRes > -1) {
+        if (emptyIconRes > -1) {
             setEmptyIcon(emptyIconRes)
         }
 
@@ -158,17 +144,31 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          * Empty text initialization
          */
         val emptyTextRes = typedArray.getResourceId(R.styleable.MultiStateView_emptyText, -1)
-        this.emptyTextRes = emptyTextRes
-        if (isDefaultEmptyViewUsed && emptyTextRes > -1) {
+        if (emptyTextRes > -1) {
             setEmptyText(emptyTextRes)
+        }
+
+        /**
+         * Empty alt text initialization
+         */
+        val emptyAltTextRes = typedArray.getResourceId(R.styleable.MultiStateView_emptyAltText, -1)
+        if (emptyAltTextRes > -1) {
+            setEmptyAltText(emptyAltTextRes)
+        }
+
+        /**
+         * Empty text initialization
+         */
+        val emptyActionRes = typedArray.getResourceId(R.styleable.MultiStateView_emptyAction, -1)
+        if (emptyActionRes > -1) {
+            setEmptyAction(emptyActionRes)
         }
 
         /**
          * Error icon initialization
          */
         val errorIconRes = typedArray.getResourceId(R.styleable.MultiStateView_errorIcon, -1)
-        this.errorIconRes = errorIconRes
-        if (isDefaultEmptyViewUsed && errorIconRes > -1) {
+        if (errorIconRes > -1) {
             setErrorIcon(errorIconRes)
         }
 
@@ -176,10 +176,26 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          * Error text initialization
          */
         val errorTextRes = typedArray.getResourceId(R.styleable.MultiStateView_errorText, -1)
-        this.errorTextRes = errorTextRes
-        if (isDefaultEmptyViewUsed && errorTextRes > -1) {
+        if (errorTextRes > -1) {
             setErrorText(errorTextRes)
         }
+
+        /**
+         * Error alt text initialization
+         */
+        val errorAltTextRes = typedArray.getResourceId(R.styleable.MultiStateView_errorAltText, -1)
+        if (errorAltTextRes > -1) {
+            setErrorAltText(errorAltTextRes)
+        }
+
+        /**
+         * Error text initialization
+         */
+        val errorActionRes = typedArray.getResourceId(R.styleable.MultiStateView_errorAction, -1)
+        if (errorActionRes > -1) {
+            setErrorAction(errorActionRes)
+        }
+
 
         typedArray.recycle()
     }
@@ -187,7 +203,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (contentView == null) throw IllegalArgumentException("Content view is not defined")
-        updateView()
+        updateView(viewState)
     }
 
     /**
@@ -225,7 +241,12 @@ class MultiStateView @JvmOverloads constructor(context: Context,
         return super.addViewInLayout(child, index, params)
     }
 
-    override fun addViewInLayout(child: View, index: Int, params: ViewGroup.LayoutParams, preventRequestLayout: Boolean): Boolean {
+    override fun addViewInLayout(
+        child: View,
+        index: Int,
+        params: ViewGroup.LayoutParams,
+        preventRequestLayout: Boolean
+    ): Boolean {
         if (isValidContentView(child)) contentView = child
         return super.addViewInLayout(child, index, params, preventRequestLayout)
     }
@@ -242,8 +263,8 @@ class MultiStateView @JvmOverloads constructor(context: Context,
     /**
      * Shows the [View] based on the [State]
      */
-    private fun updateView() {
-        when (@State.MultiStateViewState viewState) {
+    private fun updateView(@State.MultiStateViewState viewState: State) {
+        when (viewState) {
             is State.Loading -> {
                 contentView?.gone()
                 errorView?.gone()
@@ -256,7 +277,6 @@ class MultiStateView @JvmOverloads constructor(context: Context,
                 loadingView?.gone()
                 errorView?.gone()
                 contentView?.gone()
-
                 emptyView?.visible()
             }
 
@@ -266,6 +286,9 @@ class MultiStateView @JvmOverloads constructor(context: Context,
                 emptyView?.gone()
 
                 errorView?.visible()
+
+                if (viewState.message.isNotEmpty())
+                    setErrorText(viewState.message)
             }
             else -> {
                 loadingView?.gone()
@@ -321,7 +344,7 @@ class MultiStateView @JvmOverloads constructor(context: Context,
             }
         }
 
-        updateView()
+        updateView(viewState)
 
         if (switchToState) setViewState(state)
     }
@@ -345,7 +368,8 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      * @param iconRes Drawable resource used as empty icon
      */
     fun setEmptyIcon(@DrawableRes iconRes: Int) {
-        defaultEmptyView.setCompoundDrawablesWithIntrinsicBounds(0, iconRes, 0, 0)
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.setCompoundDrawablesWithIntrinsicBounds(0, iconRes, 0, 0)
     }
 
     /**
@@ -354,7 +378,20 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      * @param textRes String resource used as empty text
      */
     fun setEmptyText(@StringRes textRes: Int) {
-        defaultEmptyView.setText(textRes)
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.setText(textRes)
+    }
+
+    fun setEmptyAltText(@StringRes textRes: Int) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
+        textView?.setText(textRes)
+    }
+
+    fun setEmptyAction(@StringRes textRes: Int) {
+        val actionButton = emptyView?.findViewById<Button>(R.id.emptyStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.setText(textRes)
+        actionButton?.setOnClickListener { emptyStateActionListener?.onEmptyActionEvent() }
     }
 
     /**
@@ -363,7 +400,8 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      * @param iconRes Drawable resource used as error icon
      */
     fun setErrorIcon(@DrawableRes iconRes: Int) {
-        defaultErrorView.setCompoundDrawablesWithIntrinsicBounds(0, iconRes, 0, 0)
+        val textView = errorView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.setCompoundDrawablesWithIntrinsicBounds(0, iconRes, 0, 0)
     }
 
     /**
@@ -372,8 +410,27 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      * @param textRes String resource used as error text
      */
     fun setErrorText(@StringRes textRes: Int) {
-        defaultErrorView.setText(textRes)
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateText)
+        textView?.setText(textRes)
     }
+
+    fun setErrorText(message: String) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateText)
+        textView?.text = message
+    }
+
+    fun setErrorAltText(@StringRes textRes: Int) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
+        textView?.setText(textRes)
+    }
+
+    fun setErrorAction(@StringRes textRes: Int) {
+        val actionButton = errorView?.findViewById<Button>(R.id.errorStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.setText(textRes)
+        actionButton?.setOnClickListener { errorStateActionListener?.onErrorActionEvent() }
+    }
+
 
     /**
      * Sets the [StateListener] for the view
@@ -388,8 +445,13 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      * Shows [errorView] as a main view
      */
     fun showErrorView() {
-        setViewState(State.Error)
+        showErrorView("")
     }
+
+    fun showErrorView(message: String) {
+        setViewState(State.Error(message))
+    }
+
 
     /**
      * Shows [emptyView] as a main view
@@ -419,8 +481,32 @@ class MultiStateView @JvmOverloads constructor(context: Context,
      */
     private fun setViewState(@State.MultiStateViewState state: State) {
         viewState = state
-        updateView()
+        updateView(viewState)
         listener?.onStateChanged(state)
+    }
+
+    fun setEmptyStateActionListener(listener: EmptyStateActionListener) {
+        emptyStateActionListener = listener
+    }
+
+    fun setEmptyStateActionListener(listener: () -> Unit) {
+        emptyStateActionListener = object : EmptyStateActionListener {
+            override fun onEmptyActionEvent() {
+                listener()
+            }
+        }
+    }
+
+    fun setErrorStateActionListener(listener: ErrorStateActionListener) {
+        errorStateActionListener = listener
+    }
+
+    fun setErrorStateActionListener(listener: () -> Unit) {
+        errorStateActionListener = object : ErrorStateActionListener {
+            override fun onErrorActionEvent() {
+                listener()
+            }
+        }
     }
 
     @State.MultiStateViewState
@@ -433,6 +519,15 @@ class MultiStateView @JvmOverloads constructor(context: Context,
          * @param state The [State] that was switched to
          */
         fun onStateChanged(@State.MultiStateViewState state: State)
+    }
+
+
+    interface EmptyStateActionListener {
+        fun onEmptyActionEvent()
+    }
+
+    interface ErrorStateActionListener {
+        fun onErrorActionEvent()
     }
 
 }

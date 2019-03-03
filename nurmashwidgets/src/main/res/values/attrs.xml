@@ -12,7 +12,11 @@
         </attr>
         <attr name="emptyIcon" format="reference" />
         <attr name="emptyText" format="reference" />
+        <attr name="emptyAltText" format="reference" />
+        <attr name="emptyAction" format="reference" />
         <attr name="errorIcon" format="reference" />
         <attr name="errorText" format="reference" />
+        <attr name="errorAltText" format="reference" />
+        <attr name="errorAction" format="reference" />
     </declare-styleable>
 </resources>
