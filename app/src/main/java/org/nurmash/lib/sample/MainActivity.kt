@@ -2,6 +2,7 @@ package org.nurmash.lib.sample
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -29,14 +30,25 @@ class MainActivity : AppCompatActivity() {
         )
         listView.adapter = adapter
 
+        //customizing
+        multiStateView.setEmptyAltText(R.string.empty_alt_text)
+        multiStateView.setErrorAltText(R.string.error_alt_text)
+
+        multiStateView.setEmptyStateActionListener{
+            Toast.makeText(this@MainActivity, "Empty state action", Toast.LENGTH_SHORT).show()
+        }
+
+        multiStateView.setErrorStateActionListener{
+            Toast.makeText(this@MainActivity, "Error state action", Toast.LENGTH_SHORT).show()
+        }
 
 
         fab.setOnClickListener {
             when (multiStateView.getViewState()){
-                MultiStateView.Companion.State.Unknown -> multiStateView.showContent()
-                MultiStateView.Companion.State.Content -> multiStateView.showEmptyView()
-                MultiStateView.Companion.State.Error -> multiStateView.showContent()
-                MultiStateView.Companion.State.Empty -> multiStateView.showErrorView()
+               is MultiStateView.Companion.State.Unknown -> multiStateView.showContent()
+               is MultiStateView.Companion.State.Content -> multiStateView.showEmptyView()
+               is MultiStateView.Companion.State.Error -> multiStateView.showContent()
+               is MultiStateView.Companion.State.Empty -> multiStateView.showErrorView()
             }
         }
     }

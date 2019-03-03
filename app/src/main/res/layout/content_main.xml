@@ -7,6 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:emptyText="@string/empty_text"
+        app:emptyAction="@string/empty_action"
+        app:errorAction="@string/error_action"
+        app:errorText="@string/error_text"
         tools:showIn="@layout/activity_main"
         tools:context="org.nurmash.lib.sample.MainActivity">
     <ListView

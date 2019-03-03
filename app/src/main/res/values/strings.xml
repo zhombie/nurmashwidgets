@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Nurmash Lib Project</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="empty_text">Empty</string>
+    <string name="error_text">Error</string>
+    <string name="empty_alt_text">Empty Alt Text</string>
+    <string name="error_alt_text">Error Alt Text</string>
+    <string name="empty_action">Do Emptry</string>
+    <string name="error_action">Do Error</string>
+
 </resources>
