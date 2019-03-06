@@ -1,15 +1,24 @@
 package org.nurmash.lib.sample
 
+import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.nurmash.lib.nurmashwidgets.MultiStateView
-
+import org.nurmash.lib.nurmashwidgets.customtabs.CustomTabsHelper
+import org.nurmash.lib.nurmashwidgets.customtabs.WebViewFallback
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val URL = "https://www.google.com"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +69,29 @@ class MainActivity : AppCompatActivity() {
             Thread.sleep(3000)
             runOnUiThread { multiStateView.showContent() }
         }.start()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    private val defaultCustomTabsIntentBuilder: CustomTabsIntent.Builder
+        get() = CustomTabsIntent.Builder()
+            .addDefaultShareMenuItem()
+            .setShowTitle(true)
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.load_url -> {
+                val customTabsIntent = defaultCustomTabsIntentBuilder.build()
+                CustomTabsHelper.addKeepAliveExtra(this, customTabsIntent.intent)
+                CustomTabsHelper.openCustomTab(this, customTabsIntent, Uri.parse(URL), WebViewFallback())
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 }

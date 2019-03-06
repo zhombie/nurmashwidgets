@@ -1,7 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!--MultiStateView-->
     <string name="multi_state_view_no_items">No items</string>
     <string name="multi_state_view_error">Error</string>
+
+    <!--CustomTabs-->
+    <string name="custom_tabs_action_open_in_browser">Open in browser</string>
 
 </resources>
