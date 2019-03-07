@@ -385,6 +385,7 @@ class MultiStateView @JvmOverloads constructor(
     fun setEmptyAltText(@StringRes textRes: Int) {
         val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
         textView?.setText(textRes)
+        textView?.visibility = View.VISIBLE
     }
 
     fun setEmptyAction(@StringRes textRes: Int) {
@@ -422,6 +423,7 @@ class MultiStateView @JvmOverloads constructor(
     fun setErrorAltText(@StringRes textRes: Int) {
         val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
         textView?.setText(textRes)
+        textView?.visibility = View.VISIBLE
     }
 
     fun setErrorAction(@StringRes textRes: Int) {

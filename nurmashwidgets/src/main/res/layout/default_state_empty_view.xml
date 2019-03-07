@@ -24,7 +24,6 @@
             android:id="@+id/emptyStateAltText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="48dp"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif"
             android:gravity="center_horizontal"
@@ -32,9 +31,11 @@
             android:lineSpacingExtra="16sp"
             android:textColor="@color/lightText"
             android:textSize="13sp"
-            android:textStyle="normal"/>
+            android:textStyle="normal"
+            android:visibility="gone"/>
 
     <Button
+            android:layout_marginTop="48dp"
             android:id="@+id/emptyStateActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
