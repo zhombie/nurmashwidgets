@@ -382,16 +382,50 @@ class MultiStateView @JvmOverloads constructor(
         textView?.setText(textRes)
     }
 
+    fun setEmptyText(text: String) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.text = text
+    }
+
+    fun setEmptyText(text: CharSequence, type: TextView.BufferType) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.setText(text, type)
+    }
+
     fun setEmptyAltText(@StringRes textRes: Int) {
         val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
         textView?.setText(textRes)
         textView?.visibility = View.VISIBLE
     }
 
+    fun setEmptyAltText(text: String) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
+        textView?.text = text
+    }
+
+    fun setEmptyAltText(text: CharSequence, type: TextView.BufferType) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
+        textView?.setText(text, type)
+    }
+
     fun setEmptyAction(@StringRes textRes: Int) {
         val actionButton = emptyView?.findViewById<Button>(R.id.emptyStateActionButton)
         actionButton?.visibility = View.VISIBLE
         actionButton?.setText(textRes)
+        actionButton?.setOnClickListener { emptyStateActionListener?.onEmptyActionEvent() }
+    }
+
+    fun setEmptyAction(text: String) {
+        val actionButton = emptyView?.findViewById<Button>(R.id.emptyStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.text = text
+        actionButton?.setOnClickListener { emptyStateActionListener?.onEmptyActionEvent() }
+    }
+
+    fun setEmptyAction(text: CharSequence, type: TextView.BufferType) {
+        val actionButton = emptyView?.findViewById<Button>(R.id.emptyStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.setText(text, type)
         actionButton?.setOnClickListener { emptyStateActionListener?.onEmptyActionEvent() }
     }
 
@@ -420,9 +454,26 @@ class MultiStateView @JvmOverloads constructor(
         textView?.text = message
     }
 
+    fun setErrorText(message: CharSequence, type: TextView.BufferType) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateText)
+        textView?.setText(message, type)
+    }
+
     fun setErrorAltText(@StringRes textRes: Int) {
         val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
         textView?.setText(textRes)
+        textView?.visibility = View.VISIBLE
+    }
+
+    fun setErrorAltText(message: String) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
+        textView?.text = message
+        textView?.visibility = View.VISIBLE
+    }
+
+    fun setErrorAltText(message: CharSequence, type: TextView.BufferType) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
+        textView?.setText(message, type)
         textView?.visibility = View.VISIBLE
     }
 
@@ -433,6 +484,19 @@ class MultiStateView @JvmOverloads constructor(
         actionButton?.setOnClickListener { errorStateActionListener?.onErrorActionEvent() }
     }
 
+    fun setErrorAction(message: String) {
+        val actionButton = errorView?.findViewById<Button>(R.id.errorStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.text = message
+        actionButton?.setOnClickListener { errorStateActionListener?.onErrorActionEvent() }
+    }
+
+    fun setErrorAction(message: String, type: TextView.BufferType) {
+        val actionButton = errorView?.findViewById<Button>(R.id.errorStateActionButton)
+        actionButton?.visibility = View.VISIBLE
+        actionButton?.setText(message, type)
+        actionButton?.setOnClickListener { errorStateActionListener?.onErrorActionEvent() }
+    }
 
     /**
      * Sets the [StateListener] for the view
@@ -512,7 +576,7 @@ class MultiStateView @JvmOverloads constructor(
     }
 
     @State.MultiStateViewState
-    public fun getViewState(): State = viewState
+    fun getViewState(): State = viewState
 
     interface StateListener {
         /**

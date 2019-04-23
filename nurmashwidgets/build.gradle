@@ -6,8 +6,6 @@ apply plugin: 'maven'
 android {
     compileSdkVersion 28
 
-
-
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
@@ -15,7 +13,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -24,7 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -38,12 +34,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.browser:browser:1.0.0"
 }
+
 repositories {
     mavenCentral()
     maven {
         url "http://nexus.nurmash.kz/repository/maven-snapshots"
     }
 }
+
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -56,5 +54,3 @@ uploadArchives {
         }
     }
 }
-
-
