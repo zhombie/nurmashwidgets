@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             when (multiStateView.getViewState()){
-               is MultiStateView.Companion.State.Unknown -> multiStateView.showContent()
-               is MultiStateView.Companion.State.Content -> multiStateView.showEmptyView()
-               is MultiStateView.Companion.State.Error -> multiStateView.showContent()
-               is MultiStateView.Companion.State.Empty -> multiStateView.showErrorView()
+                is MultiStateView.Companion.State.Unknown -> multiStateView.showContent()
+                is MultiStateView.Companion.State.Content -> multiStateView.showEmptyView()
+                is MultiStateView.Companion.State.Error -> multiStateView.showContent()
+                is MultiStateView.Companion.State.Empty -> multiStateView.showErrorView()
             }
         }
     }

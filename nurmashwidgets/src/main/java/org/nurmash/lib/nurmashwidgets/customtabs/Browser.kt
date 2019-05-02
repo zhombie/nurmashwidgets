@@ -37,9 +37,9 @@ class Browser {
          * @param fallback         a CustomTabFallback to be used if Custom Tabs is not available
          */
         fun openLink(context: Context,
-                     customTabsIntent: CustomTabsIntent,
+                     customTabsIntent: CustomTabsIntent = defaultCustomTabsIntent,
                      url: String,
-                     fallback: CustomTabFallback? = WebViewFallback(),
+                     fallback: CustomTabFallback = WebViewFallback(),
                      view: View? = null,
                      errorText: String? = null,
                      @StringRes errorTextRes: Int? = null
@@ -51,7 +51,7 @@ class Browser {
                 // If we cant find a package name, it means there's no browser that supports
                 // Chrome Custom Tabs installed. So, we fallback to the webView
                 if (packageName == null) {
-                    fallback?.openUri(context = context, uri = uri)
+                    fallback.openUri(context = context, uri = uri)
                 } else {
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
