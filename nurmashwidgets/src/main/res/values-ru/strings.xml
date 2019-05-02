@@ -7,5 +7,6 @@
 
     <!--CustomTabs-->
     <string name="custom_tabs_action_open_in_browser">Открыть в браузере</string>
+    <string name="error_message_link_broken">Указана неверная ссылка</string>
 
 </resources>

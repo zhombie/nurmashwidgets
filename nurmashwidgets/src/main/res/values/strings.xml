@@ -7,5 +7,6 @@
 
     <!--CustomTabs-->
     <string name="custom_tabs_action_open_in_browser">Open in browser</string>
+    <string name="error_message_link_broken">Link is broken</string>
 
 </resources>

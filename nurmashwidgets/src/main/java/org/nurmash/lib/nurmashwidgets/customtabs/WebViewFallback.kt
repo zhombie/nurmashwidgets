@@ -5,10 +5,10 @@ import android.content.Intent
 import android.net.Uri
 
 /**
- * Default [CustomTabsHelper.CustomTabFallback] implementation
+ * Default [Browser.CustomTabFallback] implementation
  * that uses [WebViewActivity] to display the requested [Uri].
  */
-class WebViewFallback : CustomTabsHelper.CustomTabFallback {
+class WebViewFallback : Browser.CustomTabFallback {
 
     /**
      * @param context The [Context] that wants to open the Uri

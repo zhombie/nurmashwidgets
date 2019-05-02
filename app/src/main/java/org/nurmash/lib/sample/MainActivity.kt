@@ -1,6 +1,5 @@
 package org.nurmash.lib.sample
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,7 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.nurmash.lib.nurmashwidgets.MultiStateView
-import org.nurmash.lib.nurmashwidgets.customtabs.CustomTabsHelper
+import org.nurmash.lib.nurmashwidgets.customtabs.Browser
 import org.nurmash.lib.nurmashwidgets.customtabs.WebViewFallback
 
 class MainActivity : AppCompatActivity() {
@@ -85,8 +84,16 @@ class MainActivity : AppCompatActivity() {
         when (item?.itemId) {
             R.id.load_url -> {
                 val customTabsIntent = defaultCustomTabsIntentBuilder.build()
-                CustomTabsHelper.addKeepAliveExtra(this, customTabsIntent.intent)
-                CustomTabsHelper.openCustomTab(this, customTabsIntent, Uri.parse(URL), WebViewFallback())
+                Browser.addKeepAliveExtra(this, customTabsIntent.intent)
+                Browser.openLink(
+                    context = this@MainActivity,
+                    view = contentView,
+                    errorText = "sdg",
+                    errorTextRes = R.string.error_alt_text,
+                    customTabsIntent = customTabsIntent,
+                    url = URL,
+                    fallback = WebViewFallback()
+                )
                 return true
             }
         }

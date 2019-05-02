@@ -5,23 +5,23 @@ import android.app.Application
 import android.os.Bundle
 
 class CustomTabsActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
-    private var customTabsHelper: CustomTabsHelper? = null
+    private var browser: Browser? = null
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-        customTabsHelper = CustomTabsHelper()
+        browser = Browser()
     }
 
     override fun onActivityStarted(activity: Activity?) {}
 
     override fun onActivityResumed(activity: Activity?) {
         activity?.let {
-            customTabsHelper?.bindCustomTabsService(it)
+            browser?.bindCustomTabsService(it)
         }
     }
 
     override fun onActivityPaused(activity: Activity?) {
         activity?.let {
-            customTabsHelper?.unbindCustomTabsService(it)
+            browser?.unbindCustomTabsService(it)
         }
     }
 
