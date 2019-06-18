@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.nurmash.lib.nurmashwidgets.customtabs
 
 import android.app.Activity
@@ -20,7 +22,6 @@ import androidx.browser.customtabs.CustomTabsSession
 import com.google.android.material.snackbar.Snackbar
 import org.nurmash.lib.nurmashwidgets.R
 
-@Suppress("unused")
 class Browser {
 
     companion object {
@@ -122,10 +123,9 @@ class Browser {
      * @param activity the activity that is connected to the service
      */
     fun unbindCustomTabsService(activity: Activity) {
-        if (connection == null) {
-            return
+        connection?.let {
+            activity.unbindService(it)
         }
-        activity.unbindService(connection)
         client = null
         customTabsSession = null
     }

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.nurmash.lib.nurmashwidgets.customtabs
 
 import android.content.Context
@@ -125,4 +127,5 @@ object CustomTabsPackageHelper {
 
         return false
     }
+
 }

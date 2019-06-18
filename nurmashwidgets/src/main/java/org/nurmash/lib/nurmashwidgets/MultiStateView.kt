@@ -12,7 +12,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 
-
 /**
  * View that contains 4 different states: [State.Content], [State.Error], [State.Empty],
  * & [State.Loading]. Each state has their own separate layout which can be shown/hidden by
@@ -77,7 +76,6 @@ class MultiStateView @JvmOverloads constructor(
 
     @State.MultiStateViewState
     private var viewState: State = State.Unknown
-
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MultiStateView)
