@@ -1,6 +1,7 @@
 package org.nurmash.lib.nurmashwidgets
 
 import android.content.Context
+import android.text.Spannable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -390,6 +391,11 @@ class MultiStateView @JvmOverloads constructor(
         textView?.setText(text, type)
     }
 
+    fun setEmptyText(text: Spannable) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateText)
+        textView?.text = text
+    }
+
     fun setEmptyAltText(@StringRes textRes: Int) {
         val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
         textView?.setText(textRes)
@@ -399,11 +405,19 @@ class MultiStateView @JvmOverloads constructor(
     fun setEmptyAltText(text: String) {
         val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
         textView?.text = text
+        textView?.visibility = View.VISIBLE
     }
 
     fun setEmptyAltText(text: CharSequence, type: TextView.BufferType) {
         val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
         textView?.setText(text, type)
+        textView?.visibility = View.VISIBLE
+    }
+
+    fun setEmptyAltText(text: Spannable) {
+        val textView = emptyView?.findViewById<TextView>(R.id.emptyStateAltText)
+        textView?.text = text
+        textView?.visibility = View.VISIBLE
     }
 
     fun setEmptyAction(@StringRes textRes: Int) {
@@ -457,6 +471,11 @@ class MultiStateView @JvmOverloads constructor(
         textView?.setText(message, type)
     }
 
+    fun setErrorText(message: Spannable) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateText)
+        textView?.text = message
+    }
+
     fun setErrorAltText(@StringRes textRes: Int) {
         val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
         textView?.setText(textRes)
@@ -472,6 +491,12 @@ class MultiStateView @JvmOverloads constructor(
     fun setErrorAltText(message: CharSequence, type: TextView.BufferType) {
         val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
         textView?.setText(message, type)
+        textView?.visibility = View.VISIBLE
+    }
+
+    fun setErrorAltText(message: Spannable) {
+        val textView = errorView?.findViewById<TextView>(R.id.errorStateAltText)
+        textView?.text = message
         textView?.visibility = View.VISIBLE
     }
 
