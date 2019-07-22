@@ -1,6 +1,10 @@
 package org.nurmash.lib.sample
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -39,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         //customizing
-        multiStateView.setEmptyAltText(R.string.empty_alt_text)
+        multiStateView.setEmptyAltText(SpannableString(getString(R.string.empty_alt_text)).apply {
+            setSpan(ForegroundColorSpan(Color.RED), 0, length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+        })
         multiStateView.setErrorAltText(R.string.error_alt_text)
 
         multiStateView.setEmptyStateActionListener{

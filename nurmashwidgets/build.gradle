@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.23"
+        versionCode 5
+        versionName "1.22"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -54,7 +54,7 @@ uploadArchives {
             repository(url: "http://nexus.nurmash.kz/repository/maven-snapshots") {
                 authentication(userName: "admin", password: "admin123")
             }
-            pom.version = "1.23-SNAPSHOT"
+            pom.version = "1.22-SNAPSHOT"
             pom.artifactId = "nurmashwidgets"
             pom.groupId = "org.nurmash.lib"
         }
