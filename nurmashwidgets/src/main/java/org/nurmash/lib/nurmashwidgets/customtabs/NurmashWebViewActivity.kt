@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_web_view.*
 import org.nurmash.lib.nurmashwidgets.R
 
-class WebViewActivity : AppCompatActivity() {
+class NurmashWebViewActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_URL = "extraUrl"

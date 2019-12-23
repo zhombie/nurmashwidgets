@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.nurmash.lib.nurmashwidgets.customtabs.WebViewActivity" />
+        <activity
+                android:name="org.nurmash.lib.nurmashwidgets.customtabs.NurmashWebViewActivity" />
 
     </application>
 

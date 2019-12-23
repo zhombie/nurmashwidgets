@@ -40,7 +40,7 @@ class Browser {
         fun openLink(context: Context,
                      customTabsIntent: CustomTabsIntent = defaultCustomTabsIntent,
                      url: String,
-                     fallback: CustomTabFallback = WebViewFallback(),
+                     fallback: CustomTabFallback = NurmashWebViewFallback(),
                      view: View? = null,
                      errorText: String? = null,
                      @StringRes errorTextRes: Int? = null

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.nurmash.lib.nurmashwidgets.MultiStateView
 import org.nurmash.lib.nurmashwidgets.customtabs.Browser
-import org.nurmash.lib.nurmashwidgets.customtabs.WebViewFallback
+import org.nurmash.lib.nurmashwidgets.customtabs.NurmashWebViewFallback
 
 class MainActivity : AppCompatActivity() {
 
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                     errorTextRes = R.string.error_alt_text,
                     customTabsIntent = customTabsIntent,
                     url = URL,
-                    fallback = WebViewFallback()
+                    fallback = NurmashWebViewFallback()
                 )
                 return true
             }
