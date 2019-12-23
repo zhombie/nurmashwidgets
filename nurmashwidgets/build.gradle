@@ -40,23 +40,3 @@ dependencies {
     implementation "androidx.browser:browser:1.0.0"
     implementation 'com.google.android.material:material:1.0.0'
 }
-
-repositories {
-    mavenCentral()
-    maven {
-        url "http://nexus.nurmash.kz/repository/maven-snapshots"
-    }
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "http://nexus.nurmash.kz/repository/maven-snapshots") {
-                authentication(userName: "admin", password: "admin123")
-            }
-            pom.version = "1.24-SNAPSHOT"
-            pom.artifactId = "nurmashwidgets"
-            pom.groupId = "org.nurmash.lib"
-        }
-    }
-}
